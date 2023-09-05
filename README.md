@@ -12,7 +12,7 @@ You can install the development version of sta344 from [GitHub](https://github.c
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("sta344-644-fa22/dukestm")
+devtools::install_github("sta344-644-fa23/dukestm")
 ```
 
 ## Example
