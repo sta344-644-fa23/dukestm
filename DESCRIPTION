@@ -1,0 +1,25 @@
+Package: dukestm
+Title: Utility functions for the Sta 344/644 Spatio-temporal modeling course
+Version: 0.1.0
+Authors@R: 
+    person("Colin", "Rundel", , "rundel@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6058-8251"))
+Description: What the package does (one paragraph).
+License: LGPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    bayesplot,
+    dplyr,
+    fields,
+    posterior,
+    purrr,
+    rlang,
+    spBayes,
+    stringr,
+    tidybayes,
+    tidyr
+Depends: 
+    R (>= 2.10)
+LazyData: true
