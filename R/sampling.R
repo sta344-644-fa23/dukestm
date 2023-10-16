@@ -35,6 +35,9 @@ rmvnorm = function(n, mu=rep(0, nrow(Sigma)), Sigma, diag_adj = 1e-6) {
 #' @export
 #'
 cond_predict = function(x_pred, x, cov, ..., reps=1000, diag_adj = 1e-6) {
+  x_pred = as.matrix(x_pred)
+  x = as.matrix(x)
+
   dist_o  = fields::rdist(x)
   dist_p  = fields::rdist(x_pred)
   dist_po = fields::rdist(x_pred, x)
