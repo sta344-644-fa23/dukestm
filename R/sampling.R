@@ -34,9 +34,10 @@ rmvnorm = function(n, mu=rep(0, nrow(Sigma)), Sigma, diag_adj = 1e-6) {
 #'
 #' @export
 #'
-cond_predict = function(x_pred, x, cov, ..., reps=1000, diag_adj = 1e-6) {
-  x_pred = as.matrix(x_pred)
+cond_predict = function(y, x, x_pred, cov, ..., reps=1000, diag_adj = 1e-6) {
+  y = as.matrix(y)
   x = as.matrix(x)
+  x_pred = as.matrix(x_pred)
 
   dist_o  = fields::rdist(x)
   dist_p  = fields::rdist(x_pred)
@@ -51,7 +52,7 @@ cond_predict = function(x_pred, x, cov, ..., reps=1000, diag_adj = 1e-6) {
   diag(cov_p) = diag(cov_p) + diag_adj
 
   cond_cov = cov_p - cov_po %*% solve(cov_o, t(cov_po))
-  cond_mu  = cov_po %*% solve(cov_o) %*% (x)
+  cond_mu  = cov_po %*% solve(cov_o) %*% y
 
   cond_mu %*% matrix(1, ncol=reps) + t(chol(cond_cov)) %*% matrix(stats::rnorm(nrow(x_pred)*reps), ncol=reps)
 }
