@@ -31,10 +31,14 @@ rmvnorm = function(n, mu=rep(0, nrow(Sigma)), Sigma, diag_adj = 1e-6) {
 #' @param reps Numeric. Number of samples to draw from conditional distribution.
 #' @param diag_adj Numeric. Small value that is added covariance diagonal to avoid
 #' numerical singularity issues.
+#' @param cov_f_o Function. Calculates the covariance matrix for the observed locations.
+#' @param cov_f_p Function. Calculates the covariance matrix for the prediction locations.
+#' @param cov_f_o Function. Calculates the cross covariance matrix between the prediction and observed locations.
 #'
 #' @export
 #'
-cond_predict = function(y, x, x_pred, cov, ..., reps=1000, diag_adj = 1e-6) {
+cond_predict = function(y, x, x_pred, cov, ..., reps=1000, diag_adj = 1e-6,
+                        cov_f_o = cov, cov_f_p = cov, cov_f_po = cov) {
   y = as.matrix(y)
   x = as.matrix(x)
   x_pred = as.matrix(x_pred)
@@ -43,9 +47,9 @@ cond_predict = function(y, x, x_pred, cov, ..., reps=1000, diag_adj = 1e-6) {
   dist_p  = fields::rdist(x_pred)
   dist_po = fields::rdist(x_pred, x)
 
-  cov_o  = cov(dist_o, ...)
-  cov_p  = cov(dist_p, ...)
-  cov_po = cov(dist_po, ...)
+  cov_o  = cov_f_o(dist_o, ...)
+  cov_p  = cov_f_p(dist_p, ...)
+  cov_po = cov_f_po(dist_po, ...)
 
   # Quick fix for singularity issues
   diag(cov_o) = diag(cov_o) + diag_adj

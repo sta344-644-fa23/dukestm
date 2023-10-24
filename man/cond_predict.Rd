@@ -4,12 +4,23 @@
 \alias{cond_predict}
 \title{GP conditional predictions}
 \usage{
-cond_predict(x_pred, x, cov, ..., reps = 1000, diag_adj = 1e-06)
+cond_predict(
+  y,
+  x,
+  x_pred,
+  cov,
+  ...,
+  reps = 1000,
+  diag_adj = 1e-06,
+  cov_f_o = cov,
+  cov_f_p = cov,
+  cov_f_po = cov
+)
 }
 \arguments{
-\item{x_pred}{Vector or matrix of prediction locations (values).}
-
 \item{x}{Vector or matrix of fitted locations (values).}
+
+\item{x_pred}{Vector or matrix of prediction locations (values).}
 
 \item{cov}{Function. Covariance function that takes a distance matrix as input.}
 
@@ -19,6 +30,10 @@ cond_predict(x_pred, x, cov, ..., reps = 1000, diag_adj = 1e-06)
 
 \item{diag_adj}{Numeric. Small value that is added covariance diagonal to avoid
 numerical singularity issues.}
+
+\item{cov_f_o}{Function. Calculates the cross covariance matrix between the prediction and observed locations.}
+
+\item{cov_f_p}{Function. Calculates the covariance matrix for the prediction locations.}
 }
 \value{
 A matrix of size \code{n_pred} x \code{reps}.
