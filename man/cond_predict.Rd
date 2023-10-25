@@ -8,6 +8,8 @@ cond_predict(
   y,
   x,
   x_pred,
+  mu = rep(0, length(x)),
+  mu_pred = rep(0, length(x_pred)),
   cov,
   ...,
   reps = 1000,
@@ -21,6 +23,10 @@ cond_predict(
 \item{x}{Vector or matrix of fitted locations (values).}
 
 \item{x_pred}{Vector or matrix of prediction locations (values).}
+
+\item{mu}{Vector of mean values for the observed locations.}
+
+\item{mu_pred}{Vector of mean values for the prediction locations.}
 
 \item{cov}{Function. Covariance function that takes a distance matrix as input.}
 
