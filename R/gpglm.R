@@ -201,15 +201,24 @@ predict.gpglm_fit = function(
     purrr::reduce(posterior::bind_draws, along="chain")
 }
 
+filter_gpglm_mcmc = function(x, vars=NULL, thin=1) {
+  end = nrow(x$models[[1]]$mcmc)
+  start = floor(end * x$args$burnin_frac) + 1
 
+  x$mcmc |>
+    posterior::subset_draws(
+      variable = vars,
+      iteration = start:end
+    ) |>
+    posterior::thin_draws(thin=thin)
+}
 
 #' @exportS3Method
-plot.gpglm_fit = function(x, combo = c("dens", "trace"), ..., vars=NULL) {
-  mcmc = x$mcmc
-  if (!is.null(vars))
-    mcmc = mcmc[,vars]
-
-  print(bayesplot::mcmc_combo(mcmc, combo = combo, ...))
+plot.gpglm_fit = function(x, combo = c("dens", "trace"), ..., vars=NULL, thin=1) {
+  x |>
+    filter_gpglm_mcmc(vars=vars, thin=thin) |>
+    bayesplot::mcmc_combo(combo = combo, ...) |>
+    print()
 }
 
 #' @exportS3Method
@@ -225,8 +234,11 @@ print.gpglm_fit = function(x, ...) {
 }
 
 #' @exportS3Method
-summary.gpglm_fit = function(object, ...) {
-  print(summary(object$mcmc))
+summary.gpglm_fit = function(x, ...,  vars=NULL, thin=1) {
+  x |>
+    filter_gpglm_mcmc(vars=vars, thin=thin) |>
+    summary() |>
+    print()
 }
 
 #' @exportS3Method
